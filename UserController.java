@@ -51,7 +51,7 @@ public class UserController {
 		}
 		
 		//转到用户添加界面
-		@GetMapping("/user")
+		@GetMapping("/user1")
 	    public String toAddPage(){
 	        return "user-pages/user-add";
 	    }
@@ -65,16 +65,21 @@ public class UserController {
 		}
 		
 		//根据用户id,查询用户信息,转到用户修改页面
-		@GetMapping("/user/{id}")    
+		@GetMapping("/update1/{id}")    
 	       public String toEditPage(@PathVariable("id") Integer id, Model model){
 	           UserInfo user = userService.getUserById(id);
 		           System.out.println(user);
 		           model.addAttribute("user", user);
 		           System.out.printf("成功运行");
 		           //回到修改页面(user-add是一个修改添加二合一的页面);
-		           return "user-pages/user-add";  
+		           return "user-pages/user-update";  
 		  }
-
+		@RequestMapping("/update1")
+		public String updateUser(UserInfo user,ModelMap m) {
+			 userService.updateUser(user);
+			 m.put("msg", "用户修改成功");
+			 return "redirect:/users";
+		}
 		
 				
 	    //删除

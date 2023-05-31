@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mapper.OrderMapper">
+    <select id="selectAllOrders" resultType="com.beans.Order">
+        SELECT * FROM order
+    </select>
+    
+    <insert id="addOrder">
+        INSERT INTO order (orderNumber, goodsCode, goodsName, salesPrice, quantity, orderDate, sum)
+        VALUES(#{orderNumber}, #{goodsCode}, #{goodsName}, #{salesPrice}, #{quantity}, #{orderDate}, #{sum})
+    </insert>
+
+    <update id="updateOrder">
+        UPDATE order
+        SET goodsCode = #{goodsCode},
+            goodsName = #{goodsName},
+            salesPrice = #{salesPrice},
+            quantity = #{quantity},
+            orderDate = #{orderDate},
+            sum = #{sum}
+        WHERE orderNumber = #{orderNumber}
+    </update>
+
+    <delete id="deleteOrderByOrderNumber">
+        DELETE
+        FROM order
+        WHERE orderNumber = #{orderNumber}
+    </delete>
+
+    <select id="selectOrderByOrderNumber" resultType="com.beans.Order">
+        SELECT *
+        FROM order
+        WHERE orderNumber = #{orderNumber}
+    </select>
+</mapper>
