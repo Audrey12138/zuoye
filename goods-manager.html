@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{commons/public::common-public}">
+	<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=no" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=8" />
+	<title>商品库存</title>
+</head>
+<body>
+<div id="wrapper">
+	<header th:replace="~{commons/header::common-header(activeUrl='cangkukucun')}"></header>
+	<div id="page-wrapper">
+		<div class="container-fluid">
+			<!-- Page Heading -->
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header" th:text="商品库存"></h1>
+					<ol class="breadcrumb">
+						<li><i class="fa fa-dashboard"></i> <a href="main" th:text="系统主页"></a>
+						</li>
+						<li class="active"><i class="fa fa-table"></i> <span th:text="商品库存"></span></li>
+					</ol>
+				</div>
+			</div>
+			<div class="row" th:if="${not #strings.isEmpty(message)}">
+				<div class="col-lg-12">
+					<div class="alert alert-info alert-dismissable">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<i class="fa fa-info-circle"></i> <strong th:text="${message}"></strong>
+					</div>
+				</div>
+			</div>
+			<!-- /.row -->
+			<div class="row">
+				<div class="col-lg-12">
+					<h2 th:text="商品列表"></h2>
+					<div class="table-responsive">
+					<a class="pull-right btn" th:href="@{/goods/goods-add}" th:text="#{add.goods}"></a>
+						<table class="table table-striped table-sm">
+							<thead>
+							<tr>
+								<th th:text="#{goodsCode}"></th>
+								<th th:text="#{goodsName}"></th>
+								<th th:text="#{salesPrice}"></th>
+								<th th:text="#{quantity}"></th>
+								<th th:text="#{pinyin}"></th>
+								<th th:text="#{operation}"></th>
+								
+							</tr>
+							</thead>
+							<tbody>
+							<tr th:each="u:${goodsList}">
+								<td th:text="${u.goodsCode}"></td>
+								<td th:text="${u.goodsName}"></td>
+								<td th:text="${u.salesPrice}"></td>
+								<td th:text="${u.quantity}"></td>
+								<td th:text="${u.pinyin}"></td>
+								
+								<td>
+									<a class="btn btn-sm btn-default" th:href="@{/jiesuan/}+${u.goodsCode}" >加入订单</a>
+									<a class="btn btn-sm btn-success" th:href="@{/goods/}+${u.goodsCode}" >修改</a>
+								    <a class="btn btn-sm btn-danger deleteBtn" th:href="@{/delete/}+${u.goodsCode}" onclick="return confirm('确定要删除吗')" >删除</a>
+								</td>
+								
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	function addToOrder(goodsCode, goodsName, salesPrice, quantity) {
+	  // 向后端发送请求添加订单
+      $.ajax({
+        type: 'post',
+        url: '/addOrder',
+        data: JSON.stringify({
+          goodsCode: goodsCode,
+          goodsName: goodsName,
+          salesPrice: salesPrice,
+          quantity: quantity
+        }),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function (data) {
+		  // 如果成功添加到订单
+		  if(data.result === 'success'){
+			  alert("添加订单成功！");
+		  } else {
+			  alert("添加订单失败！");
+		  }
+        },
+        error: function () {
+          alert('网络异常，请稍后再试！');
+        }});
+	}
+</script>
+
+</body>
+</html>
