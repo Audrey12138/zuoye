@@ -66,7 +66,7 @@
 
 							<select name="goodsCode">
 							  <option value="">请选择商品</option>
-							  <option th:each="goods : ${goodsList}" th:value="${u.goodsCode}" th:text="${goods.goodsName}"></option>
+							  <option th:each="goods : ${goodsList}" th:value="${goods.goodsCode}" th:text="${goods.goodsName}"></option>
 							</select>
 						</div>
 					</div>
